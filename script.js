@@ -207,8 +207,8 @@ const TRAD = {
   metrics:{
     asteroid:   { EVOLVE:[47.16,9803], SZ3:[40.85,2482], TTHRESH:[43.44,2401], ZFP:[40.00,1164] },
     combustion: { EVOLVE:[49.31,6047], SZ3:[41.10,2948], TTHRESH:[42.98,2714], ZFP:[41.92, 129] },
-    ionization: { EVOLVE:[47.58,7843], SZ3:[40.81, 591], TTHRESH:[40.05,2785], ZFP:[41.44, 107] },
-    isotropic:  { EVOLVE:[45.18,2846], SZ3:[40.03, 985], TTHRESH:[43.51, 870], ZFP:[43.79,  63] },
+    ionization: { EVOLVE:[47.58,7843], SZ3:[41.43,1051], TTHRESH:[40.11,6334], ZFP:[41.44, 107] },
+    isotropic:  { EVOLVE:[45.18,2846], SZ3:[40.03, 985], TTHRESH:[43.51, 870], ZFP:[43.79,  64] },
   },
   defaults:{ mode:'vol', ds:'asteroid', left:'EVOLVE', right:'ZFP' },
 };
@@ -246,10 +246,10 @@ const SCAN = {
   methods:['GT','EVOLVE','SZ3','TTHRESH','ZFP'],
   keyMap:{GT:'gt',EVOLVE:'evolve',SZ3:'sz3',TTHRESH:'tthresh',ZFP:'zfp'},
   metrics:{
-    chameleon:  { EVOLVE:[49.64,728],  SPERR:[46.71,710],  SZ3:[46.22,702],  TTHRESH:[43.46,80],  ZFP:[43.72,127] },
-    stag_beetle:{ EVOLVE:[50.54,3830], SPERR:[46.44,3689], SZ3:[44.67,1061], TTHRESH:[44.94,50],  ZFP:[42.92,920] },
-    engine:     { EVOLVE:[44.08,327],  SPERR:[44.00,249],  SZ3:[43.50,100],  TTHRESH:[43.45,103], ZFP:[43.13,79]  },
-    foot:       { EVOLVE:[33.71,257],  SPERR:[45.76,40],   SZ3:[45.59,35],   TTHRESH:[45.68,20],  ZFP:[44.11,29]  },
+    chameleon:  { EVOLVE:[49.64,728],  SZ3:[46.22,702],  TTHRESH:[43.46,80],  ZFP:[43.72,127] },
+    stag_beetle:{ EVOLVE:[50.54,3830], SZ3:[44.67,1061], TTHRESH:[44.94,50],  ZFP:[42.92,920] },
+    engine:     { EVOLVE:[44.08,327],  SZ3:[43.50,100],  TTHRESH:[43.45,103], ZFP:[43.13,79]  },
+    foot:       { EVOLVE:[33.71,257],  SZ3:[45.59,35],   TTHRESH:[45.68,20],  ZFP:[44.11,29]  },
   },
   defaults:{ ds:'chameleon', left:'EVOLVE', right:'SZ3' },
 };
