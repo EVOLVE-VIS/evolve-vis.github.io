@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EVOLVE — Efficient Learned Volume Compression</title>
+<meta name="description" content="EVOLVE: an autoencoder-based volume compression framework with variable-rate encoding, trained on a cross-domain database of 6,376 volumes from 21 scientific simulations." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<!-- grain + atmosphere -->
+<div class="atmos" aria-hidden="true">
+  <div class="atmos__glow atmos__glow--amber"></div>
+  <div class="atmos__glow atmos__glow--cyan"></div>
+  <div class="atmos__grid"></div>
+  <div class="atmos__grain"></div>
+</div>
+
+<!-- nav -->
+<header class="nav">
+  <a class="nav__brand" href="#top">
+    <span class="nav__mark">◢◣</span> EVOLVE
+  </a>
+  <nav class="nav__links">
+    <a href="#abstract">Abstract</a>
+    <a href="#method">Method</a>
+    <a href="#compare">Compare</a>
+    <a href="#learned">INR</a>
+    <a href="#scan">Scanned</a>
+    <a href="#results">Results</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__head">
+      <h1 class="hero__title reveal" data-d="1">EVOLVE</h1>
+      <p class="hero__subtitle reveal" data-d="2">Efficient Learned Volume Compression with Variable-Rate&nbsp;Encoding on a Cross-Domain Database</p>
+
+      <div class="cta reveal" data-d="4">
+        <span class="btn btn--soon" data-link="paper" aria-disabled="true" title="Coming soon"><span class="btn__ico">▤</span> Paper</span>
+        <span class="btn btn--soon" data-link="arxiv" aria-disabled="true" title="Coming soon"><span class="btn__ico">✦</span> arXiv</span>
+        <a class="btn" href="https://github.com/EVOLVE-VIS/EVOLVE" target="_blank" rel="noopener" data-link="code"><span class="btn__ico">⟨⟩</span> Code</a>
+      </div>
+    </div>
+
+    <!-- hero comparison slider -->
+    <figure class="teaser reveal" data-d="5">
+      <div class="teaser__row">
+        <div class="teaser__panel">
+          <div class="teaser__media"><img src="assets/teaser_rd.webp" alt="rate–distortion curves" /></div>
+          <span class="teaser__cap mono">(a) rate–distortion curves</span>
+        </div>
+        <div class="teaser__panel">
+          <div class="teaser__media"><img src="assets/teaser_timing.webp" alt="encoding / decoding time" /></div>
+          <span class="teaser__cap mono">(b) encoding / decoding time</span>
+        </div>
+        <div class="teaser__panel teaser__panel--demo">
+          <div class="teaser__media">
+            <div class="compare" id="heroCompare"
+                 data-before="assets/teaser_tthresh.webp"
+                 data-after="assets/teaser_evolve.webp"
+                 data-left="TTHRESH · 6,334×" data-right="EVOLVE · 7,843×"></div>
+          </div>
+          <span class="teaser__cap mono">(c) TTHRESH vs. EVOLVE — drag</span>
+        </div>
+      </div>
+      <figcaption>
+        <span class="mono">Ionization (H⁺) · 141&nbsp;MB</span>
+        A single EVOLVE model spans the full rate–distortion curve while encoding orders of magnitude faster than
+        INR codecs. At a matched compression ratio, TTHRESH collapses to 39.1&nbsp;dB whereas EVOLVE stays faithful
+        at 47.6&nbsp;dB — drag panel (c) to compare.
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- METRICS STRIP (commented out)
+  <section class="strip">
+    <div class="strip__item reveal"><b>6,376</b><span>volumes in the<br>cross-domain database</span></div>
+    <div class="strip__item reveal"><b>21</b><span>scientific<br>simulations</span></div>
+    <div class="strip__item reveal"><b>1</b><span>model, continuous<br>variable-rate encoding</span></div>
+    <div class="strip__item reveal"><b>10<sup>×</sup>–10<sup>³×</sup></b><span>faster than<br>INR-based methods</span></div>
+  </section>
+  -->
+
+  <!-- DESIGN ROADMAP -->
+  <section class="section" id="roadmap">
+    <div class="section__label"><span>◆</span> Design Roadmap</div>
+    <figure class="roadmap reveal">
+      <img src="assets/roadmap.webp" alt="Ablation-based roadmap modernizing a vanilla autoencoder into EVOLVE" loading="lazy" />
+      <figcaption>
+        We modernize a vanilla autoencoder into EVOLVE through progressive macro-design, micro-design and
+        block-size upgrades. Bars give the compression ratio, stars give PSNR, and the right column lists
+        encoding&nbsp;/&nbsp;decoding time; a hatched bar marks a modification that was <em>not</em> adopted.
+        Trained on only a 303-volume roadmap subset, the final EVOLVE already surpasses conventional
+        compressors (TTHRESH, ZFP, SZ3).
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ABSTRACT -->
+  <section class="section" id="abstract">
+    <div class="section__label"><span>01</span> Abstract</div>
+    <div class="abstract-grid">
+      <aside class="abstract-side">
+        <p class="abstract-kicker">A single autoencoder, trained once on a cross-domain database, compresses
+           unseen scientific volumes at continuously variable rates.</p>
+        <div class="keywords">
+          <span class="control__lab mono">Index Terms</span>
+          <ul>
+            <li>Volume compression</li>
+            <li>Learning-based compressor</li>
+            <li>Autoencoder</li>
+            <li>Context model</li>
+            <li>Cross-domain database</li>
+          </ul>
+        </div>
+      </aside>
+      <p class="abstract">
+        Large-scale scientific simulations generate volumetric data at rates that far outpace advances in
+        storage and network bandwidth, making effective lossy compression increasingly critical. Conventional
+        compressors often struggle to preserve fine structural details at high compression ratios&nbsp;(CRs), and
+        implicit neural representations&nbsp;(INRs) require costly per-volume optimization and produce models with
+        fixed&nbsp;CRs. We present <em>EVOLVE</em>, an autoencoder-based volume compression framework with three key
+        contributions: a <strong>large-scale cross-domain database</strong> of 6,376 volumes from 21 simulations
+        curated via perceptual hashing; a <strong>redesigned autoencoder</strong> that incorporates carefully chosen
+        macro- and micro-designs to substantially improve expressive power and compression capability; and a
+        <strong>learnable gain mechanism</strong> with a three-stage training strategy that enables variable-rate
+        encoding, allowing a single model to support continuous CR adjustment at inference time. EVOLVE achieves
+        substantially higher CRs than conventional compressors at comparable reconstruction quality, while
+        offering compression speeds orders of magnitude faster than INR-based methods.
+      </p>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section class="section" id="highlights">
+    <div class="section__label"><span>02</span> Contributions</div>
+    <div class="cards">
+      <article class="card reveal">
+        <div class="card__no">i</div>
+        <h3>Cross-Domain Database</h3>
+        <p>6,376 volumes drawn from 21 scientific simulations, curated by perceptual hashing for diversity, so
+           the optimized model learns features that <em>generalize across unseen volumes</em> within the covered domains.</p>
+        <div class="card__tag mono">6,376 volumes · 21 sims</div>
+      </article>
+      <article class="card reveal">
+        <div class="card__no">ii</div>
+        <h3>Redesigned Autoencoder</h3>
+        <p>We re-examine the design space of AE-based compressors and fold a set of macro- and micro-designs into
+           a vanilla AE, sharply improving expressive power and rate–distortion performance.</p>
+        <div class="card__tag mono">design-space exploration</div>
+      </article>
+      <article class="card reveal">
+        <div class="card__no">iii</div>
+        <h3>Variable-Rate Encoding</h3>
+        <p>A learnable gain mechanism trained with a three-stage strategy lets <em>one</em> model cover a wide,
+           continuous range of compression ratios — no retraining, no per-rate checkpoints.</p>
+        <div class="card__tag mono">one model · any CR</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section class="section" id="method">
+    <div class="section__label"><span>03</span> Method Overview</div>
+    <figure class="method">
+      <img src="assets/method.webp" alt="EVOLVE architecture overview" loading="lazy" />
+      <figcaption>
+        EVOLVE encodes a volume into a latent representation, modulates it through a learnable gain unit for
+        variable-rate control, and entropy-codes it with a context model. A single trained network decodes
+        across a continuous spectrum of compression ratios.
+      </figcaption>
+    </figure>
+
+    <!-- entropy figure (commented out)
+    <figure class="method method--entropy">
+      <img src="assets/entropy.webp" alt="Comparison of entropy models and our proposed context model" loading="lazy" />
+      <figcaption>
+        Entropy models compared. (a) Factorized model with independent Gaussian assumptions.
+        (b) Hyperprior model conditioning latent distributions on a hyperprior&nbsp;Ψ. (c) Our context model,
+        which further combines 3D checkerboard spatial and channel context for more accurate probability
+        estimation. (d) Channel-context architecture that decodes latent channels progressively, conditioning
+        each slice on previously decoded ones.
+      </figcaption>
+    </figure>
+    -->
+  </section>
+
+  <!-- INTERACTIVE COMPARISONS -->
+  <section class="section section--wide" id="compare">
+    <div class="section__label"><span>04</span> Interactive Comparisons</div>
+    <p class="lead">Compare any two methods on unseen datasets. Pick a render mode and dataset, choose what
+       goes on each side of the divider, drag to wipe, and toggle the per-voxel error map.</p>
+
+    <div class="controls">
+      <div class="control">
+        <span class="control__lab mono">Render</span>
+        <div class="tabs" id="modeTabs">
+          <button class="tab is-active" data-mode="vol">Volume Rendering</button>
+          <button class="tab" data-mode="iso">Isosurface</button>
+        </div>
+      </div>
+      <div class="control">
+        <span class="control__lab mono">Dataset</span>
+        <div class="chips" id="dsChips"></div>
+      </div>
+      <div class="control">
+        <span class="control__lab mono">Left</span>
+        <div class="chips" id="leftChips"></div>
+      </div>
+      <div class="control">
+        <span class="control__lab mono">Right</span>
+        <div class="chips" id="rightChips"></div>
+      </div>
+      <div class="control control--toggle">
+        <span class="control__lab mono">Error map</span>
+        <button class="toggle" id="diffToggle" role="switch" aria-checked="false">
+          <span class="toggle__knob"></span><span class="toggle__txt mono">diff</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- metric readout -->
+    <div class="metrics" id="metricBar">
+      <div class="metric" id="metricL">
+        <span class="metric__name mono"></span>
+        <span class="metric__val"></span>
+      </div>
+      <div class="metric" id="metricR">
+        <span class="metric__name mono"></span>
+        <span class="metric__val"></span>
+      </div>
+    </div>
+
+    <figure class="gallery">
+      <div class="compare compare--tall" id="galleryCompare"></div>
+      <figcaption id="galleryCaption" class="mono"></figcaption>
+    </figure>
+  </section>
+
+  <!-- LEARNED / INR COMPRESSORS -->
+  <section class="section section--wide" id="learned">
+    <div class="section__label"><span>05</span> vs. INR Compressors</div>
+    <p class="lead">EVOLVE against per-volume INR codecs — SIREN, NeurComp, ECNR, Instant-NGP, fV-SRN,
+       AMGSRN++ and IDLat. Unlike these, EVOLVE needs no per-volume optimization: a single pretrained model
+       encodes any unseen volume in seconds, at substantially higher compression ratios.</p>
+
+    <div class="controls">
+      <div class="control">
+        <span class="control__lab mono">Render</span>
+        <div class="tabs" id="inrModeTabs">
+          <button class="tab is-active" data-mode="vol">Volume Rendering</button>
+          <button class="tab" data-mode="iso">Isosurface</button>
+        </div>
+      </div>
+      <div class="control"><span class="control__lab mono">Dataset</span><div class="chips" id="inrDsChips"></div></div>
+      <div class="control"><span class="control__lab mono">Left</span><div class="chips" id="inrLeftChips"></div></div>
+      <div class="control"><span class="control__lab mono">Right</span><div class="chips" id="inrRightChips"></div></div>
+      <div class="control control--toggle">
+        <span class="control__lab mono">Error map</span>
+        <button class="toggle" id="inrDiffToggle" role="switch" aria-checked="false">
+          <span class="toggle__knob"></span><span class="toggle__txt mono">diff</span>
+        </button>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="metric" id="inrMetricL"><span class="metric__name mono"></span><span class="metric__val"></span></div>
+      <div class="metric" id="inrMetricR"><span class="metric__name mono"></span><span class="metric__val"></span></div>
+    </div>
+    <figure class="gallery">
+      <div class="compare compare--tall" id="inrCompare"></div>
+      <figcaption id="inrCaption" class="mono"></figcaption>
+    </figure>
+  </section>
+
+  <!-- OUT-OF-DOMAIN · SCANNED CT DATA -->
+  <section class="section section--wide" id="scan">
+    <div class="section__label"><span>06</span> Out-of-Domain · Scanned CT Data</div>
+    <p class="lead lead--justify">Scanned CT volumes (Open SciVis) are a harder, out-of-domain test: they are
+       <strong>near-lossless</strong> targets (≈&nbsp;50&nbsp;dB) and lie entirely outside EVOLVE's training
+       distribution, which contains only simulation data. Even so, on volumes whose statistics fall close enough
+       to that distribution — <strong>chameleon</strong> and <strong>stag&nbsp;beetle</strong> — EVOLVE clears the
+       near-lossless bar <em>and</em> compresses far harder than any baseline (stag&nbsp;beetle: 50.5&nbsp;dB at
+       3,830×, 3.6× the next best). We also include <strong>foot</strong> as a failure case, where quality
+       saturates at 33.7&nbsp;dB — out-of-domain success tracks how far the data drifts from the training
+       distribution, not a blanket guarantee.</p>
+
+    <div class="controls">
+      <div class="control"><span class="control__lab mono">Dataset</span><div class="chips" id="scanDsChips"></div></div>
+      <div class="control"><span class="control__lab mono">Left</span><div class="chips" id="scanLeftChips"></div></div>
+      <div class="control"><span class="control__lab mono">Right</span><div class="chips" id="scanRightChips"></div></div>
+      <div class="control control--toggle">
+        <span class="control__lab mono">Error map</span>
+        <button class="toggle" id="scanDiffToggle" role="switch" aria-checked="false">
+          <span class="toggle__knob"></span><span class="toggle__txt mono">diff</span>
+        </button>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="metric" id="scanMetricL"><span class="metric__name mono"></span><span class="metric__val"></span></div>
+      <div class="metric" id="scanMetricR"><span class="metric__name mono"></span><span class="metric__val"></span></div>
+    </div>
+    <figure class="gallery">
+      <div class="compare compare--tall" id="scanCompare"></div>
+      <figcaption id="scanCaption" class="mono"></figcaption>
+    </figure>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="section" id="results">
+    <div class="section__label"><span>07</span> Rate–Distortion</div>
+    <p class="lead">A single EVOLVE model traces full rate–distortion curves in both fidelity (PSNR) and
+       perceptual quality (LPIPS), staying on top across the entire compression-ratio range while conventional
+       and INR-based compressors fall away.</p>
+    <div class="plots plots--2col">
+      <figure class="plot reveal"><img src="assets/rd_asteroids_psnr.webp" alt="PSNR vs CR, asteroids" loading="lazy" /><figcaption class="mono">PSNR vs. CR — Asteroid Impact</figcaption></figure>
+      <figure class="plot reveal"><img src="assets/rd_combustion_psnr.webp" alt="PSNR vs CR, combustion" loading="lazy" /><figcaption class="mono">PSNR vs. CR — Combustion</figcaption></figure>
+      <figure class="plot reveal"><img src="assets/rd_asteroids_lpips.webp" alt="LPIPS vs CR, asteroids" loading="lazy" /><figcaption class="mono">LPIPS vs. CR — Asteroid Impact</figcaption></figure>
+      <figure class="plot reveal"><img src="assets/rd_combustion_lpips.webp" alt="LPIPS vs CR, combustion" loading="lazy" /><figcaption class="mono">LPIPS vs. CR — Combustion</figcaption></figure>
+    </div>
+  </section>
+
+
+</main>
+
+<footer class="foot">
+  <span class="mono">EVOLVE · University of Notre Dame · 2026</span>
+  <span class="mono foot__dim">Page layout inspired by OneDC · comparison slider after HiFiC</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
