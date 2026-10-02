@@ -128,6 +128,11 @@ main{ position:relative; z-index:1; }
   font-family:"IBM Plex Mono", monospace; font-size:12.5px; letter-spacing:.04em;
   color:var(--muted); margin:12px 0 0; text-transform:uppercase;
 }
+.authors a, .affil a{ color:#326d91; text-decoration:none; }
+.authors a:hover, .affil a:hover{ color:#245574; text-decoration:underline; text-underline-offset:.18em; }
+.authors a:focus-visible, .affil a:focus-visible, .btn:focus-visible{
+  outline:2px solid #326d91; outline-offset:4px;
+}
 
 /* buttons */
 .cta{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:40px; }
@@ -145,6 +150,11 @@ main{ position:relative; z-index:1; }
 .btn--primary .btn__ico{ color:#1a1304; }
 .btn--primary:hover{ background:#ffbe54; }
 .btn--soon{ opacity:.4; cursor:not-allowed; pointer-events:none; }
+.btn--pdf{ background:#fff0ed; border-color:#f2c9c2; color:#923e37; }
+.btn--pdf:hover{ background:#ffe5df; border-color:#dba9a1; }
+.btn--code{ background:#eaf7ef; border-color:#c5e5d2; color:#266543; }
+.btn--code:hover{ background:#ddf1e5; border-color:#a0cdb3; }
+.btn--pdf .btn__ico, .btn--code .btn__ico{ color:inherit; }
 
 /* hero teaser — 3-panel paper-style layout (full-bleed) */
 .teaser{ width:100vw; margin-left:calc(50% - 50vw); margin-top:clamp(48px,7vw,82px); }
